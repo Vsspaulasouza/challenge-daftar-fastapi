@@ -20,6 +20,7 @@ async def get_story(story_id: int, db: db_dependency):
         raise HTTPException(status_code=404, detail="Story not found")
     return db_story
 
+
 @stories_router.post("/stories/", status_code=status.HTTP_201_CREATED)
 async def create_stories(story: StoryBase, db: db_dependency):
     db_story = Stories(title=story.title, text=story.text)
@@ -31,3 +32,24 @@ async def create_stories(story: StoryBase, db: db_dependency):
         detail = e.orig.diag.message_detail
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
     return db_story
+
+
+@stories_router.put("/stories/{story_id}")
+async def create_stories(story_id: int, story: UpdateStoryBase, db: db_dependency):
+    db_story = db.get(Stories, story_id)
+    if not db_story:
+        raise HTTPException(status_code=404, detail="Story not found")
+
+    story_data = story.model_dump(exclude_unset=True)
+    for key, value in story_data.items():
+        setattr(db_story, key, value)
+
+    try:
+        db.add(db_story)
+        db.commit()
+        db.refresh(db_story)
+    except exc.DBAPIError as e:
+        detail = e.orig.diag.message_detail
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
+    return db_story
+
