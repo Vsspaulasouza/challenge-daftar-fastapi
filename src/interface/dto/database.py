@@ -3,7 +3,7 @@ import os
 import dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 dotenv.load_dotenv()
 db_user = os.getenv("DB_USER")
@@ -17,3 +17,8 @@ engine = create_engine(URL_DATABASE)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+
+def get_session():
+    with Session(engine) as session:
+        yield session
