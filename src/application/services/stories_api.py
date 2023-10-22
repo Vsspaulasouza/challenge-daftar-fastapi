@@ -8,13 +8,13 @@ stories_router = APIRouter()
 
 
 @stories_router.get("/stories/")
-async def list_stories(db: db_dependency):
+async def read_stories(db: db_dependency):
     result = db.query(Stories).all()
     return result
 
 
 @stories_router.get("/stories/{story_id}")
-async def get_story(story_id: int, db: db_dependency):
+async def read_story(story_id: int, db: db_dependency):
     db_story = db.query(Stories).filter(Stories.id == story_id).first()
     if db_story is None:
         raise HTTPException(status_code=404, detail="Story not found")
@@ -22,7 +22,7 @@ async def get_story(story_id: int, db: db_dependency):
 
 
 @stories_router.post("/stories/", status_code=status.HTTP_201_CREATED)
-async def create_stories(story: StoryBase, db: db_dependency):
+async def create_story(story: StoryBase, db: db_dependency):
     db_story = Stories(title=story.title, text=story.text)
     try:
         db.add(db_story)
@@ -35,7 +35,7 @@ async def create_stories(story: StoryBase, db: db_dependency):
 
 
 @stories_router.put("/stories/{story_id}")
-async def create_stories(story_id: int, story: UpdateStoryBase, db: db_dependency):
+async def update_story(story_id: int, story: UpdateStoryBase, db: db_dependency):
     db_story = db.get(Stories, story_id)
     if not db_story:
         raise HTTPException(status_code=404, detail="Story not found")
