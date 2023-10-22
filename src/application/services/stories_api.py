@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import exc
 
@@ -7,13 +9,13 @@ from src.interface.models.story_base import StoryBase, UpdateStoryBase, db_depen
 stories_router = APIRouter()
 
 
-@stories_router.get("/stories/")
+@stories_router.get("/stories/", response_model=List[StoryBase])
 async def read_stories(db: db_dependency):
     result = db.query(Stories).all()
     return result
 
 
-@stories_router.get("/stories/{story_id}")
+@stories_router.get("/stories/{story_id}", response_model=StoryBase)
 async def read_story(story_id: int, db: db_dependency):
     db_story = db.query(Stories).filter(Stories.id == story_id).first()
     if db_story is None:
@@ -21,7 +23,7 @@ async def read_story(story_id: int, db: db_dependency):
     return db_story
 
 
-@stories_router.post("/stories/", status_code=status.HTTP_201_CREATED)
+@stories_router.post("/stories/", response_model=StoryBase, status_code=status.HTTP_201_CREATED)
 async def create_story(story: StoryBase, db: db_dependency):
     db_story = Stories(title=story.title, text=story.text)
     try:
@@ -34,7 +36,7 @@ async def create_story(story: StoryBase, db: db_dependency):
     return db_story
 
 
-@stories_router.put("/stories/{story_id}")
+@stories_router.put("/stories/{story_id}", response_model=StoryBase)
 async def update_story(story_id: int, story: UpdateStoryBase, db: db_dependency):
     db_story = db.get(Stories, story_id)
     if not db_story:
