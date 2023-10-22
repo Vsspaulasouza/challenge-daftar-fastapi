@@ -1,13 +1,21 @@
 {
   "cSpell.words": [
     "autoflush",
+    "daftar",
+    "Daftar",
+    "DBAPI",
     "dotenv",
     "fastapi",
     "nullable",
     "postgresql",
+    "psycopg",
     "pydantic",
     "sessionmaker",
-    "sqlalchemy"
+    "sqlalchemy",
+    "treinee",
+    "uvicorn",
+    "venv",
+    "Vsspaulasouza"
   ],
   "files.exclude": {
     "**/.git": true,
