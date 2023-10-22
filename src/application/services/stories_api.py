@@ -13,6 +13,13 @@ async def list_stories(db: db_dependency):
     return result
 
 
+@stories_router.get("/stories/{story_id}")
+async def get_story(story_id: int, db: db_dependency):
+    db_story = db.query(Stories).filter(Stories.id == story_id).first()
+    if db_story is None:
+        raise HTTPException(status_code=404, detail="Story not found")
+    return db_story
+
 @stories_router.post("/stories/", status_code=status.HTTP_201_CREATED)
 async def create_stories(story: StoryBase, db: db_dependency):
     db_story = Stories(title=story.title, text=story.text)
