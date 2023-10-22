@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 from fastapi import Depends
 from pydantic import BaseModel
@@ -13,6 +13,9 @@ story.Base.metadata.create_all(bind=engine)
 class StoryBase(BaseModel):
     title: str
     text: str
+class UpdateStoryBase(BaseModel):
+    title: Optional[str] = None
+    text: Optional[str] = None
 
 
 def get_db():

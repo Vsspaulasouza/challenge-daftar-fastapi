@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import exc
 
 from src.interface.models.story import Stories
-from src.interface.models.story_base import StoryBase, db_dependency
+from src.interface.models.story_base import StoryBase, UpdateStoryBase, db_dependency
 
 stories_router = APIRouter()
 
@@ -53,3 +53,12 @@ async def create_stories(story_id: int, story: UpdateStoryBase, db: db_dependenc
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
     return db_story
 
+
+@stories_router.delete("/stories/{story_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_story(story_id: int, db: db_dependency):
+    db_story = db.get(Stories, story_id)
+    if not db_story:
+        raise HTTPException(status_code=404, detail="Story not found")
+
+    db.delete(db_story)
+    db.commit()
