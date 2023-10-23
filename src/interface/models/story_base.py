@@ -13,6 +13,9 @@ class StoryBase(BaseModel):
     title: str
     text: str
 
+    class Config:
+        orm_mode = True
+
 
 class CreateStoryBase(BaseModel):
     title: str

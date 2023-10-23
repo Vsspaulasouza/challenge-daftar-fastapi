@@ -1,7 +1,7 @@
 # import uvicorn
 from fastapi import FastAPI
 
-from src.application.services.stories_api import stories_router
+from src.controller.stories_api import stories_router
 
 app = FastAPI()
 

@@ -44,7 +44,7 @@ async def update_story(*, session: Session = Depends(get_session), story_id: int
     if not db_story:
         raise HTTPException(status_code=404, detail="Story not found")
 
-    story_data = story.model_dump(exclude_unset=True)
+    story_data = story.dict(exclude_unset=True)
     for key, value in story_data.items():
         setattr(db_story, key, value)
 

@@ -12,6 +12,7 @@
     "pydantic",
     "sessionmaker",
     "sqlalchemy",
+    "sqlmodel",
     "treinee",
     "uvicorn",
     "venv",
