@@ -12,7 +12,7 @@ stories_router = APIRouter()
 
 
 @stories_router.get("/stories/", response_model=List[StoryBase])
-def read_stories(*, session: Session = Depends(get_session)):
+async def read_stories(*, session: Session = Depends(get_session)):
     result = session.query(Stories).all()
     return result
 
