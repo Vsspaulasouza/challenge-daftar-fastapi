@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import exc
 from sqlalchemy.orm import Session
 
-from src.interface.dto.database import get_session
+from src.infra.database import get_session
 from src.interface.models.story import Stories
 from src.interface.models.story_base import CreateStoryBase, StoryBase, UpdateStoryBase
 

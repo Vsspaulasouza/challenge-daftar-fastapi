@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from src.interface.dto.database import Base
+from src.infra.database import Base
 
 
 class Stories(Base):

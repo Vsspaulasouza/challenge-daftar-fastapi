@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from src.interface.dto.database import engine
+from src.infra.database import engine
 from src.interface.models import story
 
 story.Base.metadata.create_all(bind=engine)
